@@ -98,8 +98,8 @@ export default function Form(){
                     {countries.map(mp => (
                         <option value={mp.name}>{mp.name}</option>
                     ))}
-                    </ select>
                     <ul><li>{state.countries.map(el => el + ", ")}</li></ul>
+                    </ select>
                 </div>
                 <button className="btn" onClick={handleOnSubmit}>Add activity</button>
             </form>

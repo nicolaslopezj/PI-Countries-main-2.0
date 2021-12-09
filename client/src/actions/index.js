@@ -20,7 +20,8 @@ export function getCountriesName(name) {
       
       return dispatch({ 
         type: "GET_COUNTRIES_NAME",
-        payload: json.data })
+        payload: json.data 
+      })
     }
     catch (error) {
       console.log(error);

@@ -75,7 +75,7 @@ const getCountryByName = async (req, res) => {
   if(name){
     try {
     let countries = await getAllCountries();
-    let country = countries.filter((fl) => fl.name.toLowerCase() === name.toLowerCase());
+    let country = countries.filter((fl) => fl.name.toLowerCase() == name.toLowerCase());
     console.log("countries", country)
     // console.log(res)
     // console.log("res", res)

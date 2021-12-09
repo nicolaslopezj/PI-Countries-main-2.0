@@ -83,7 +83,7 @@ function handleClick(e) {
                 />
             </div>
             <div className="cards">
-                {currentCountries.length > 0 ? currentCountries.map(country => {
+                {currentCountries.length ? currentCountries.map(country => {
                     console.log(allCountries);
                     return (
                         <div>

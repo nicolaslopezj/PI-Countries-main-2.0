@@ -16,7 +16,7 @@ function rootReducer(state = initialState, action) {
         case 'GET_COUNTRIES_NAME':
             return {
                 ...state,
-                countries: action.payload
+                allCountries: action.payload
             };
 
         case 'GET_DETAIL':
