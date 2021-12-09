@@ -1,0 +1,19 @@
+.paginate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.search-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.sort-by {
+  color: rgb(30, 128, 219);
+}
