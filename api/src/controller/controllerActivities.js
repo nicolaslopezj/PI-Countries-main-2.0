@@ -28,9 +28,11 @@ const addActivity = async (req, res) => {
         season,
       });
 
-      await newActivity.setCountries(cId);
+      for (const countryId of cId) {
+        await newActivity.addCountry(countryId);
+      }
 
-      res.status(200).send(match);
+      res.status(200).send('OK');
     }
   } catch (error) {
     console.log('errro', error);
