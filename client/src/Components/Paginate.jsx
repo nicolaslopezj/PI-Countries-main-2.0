@@ -1,10 +1,14 @@
-import React from "react";
-import "./Paginate.css";
+import React from 'react';
+import './Paginate.css';
 
 export default function Paginate(props) {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(props.allCountries / props.countriesPerPage); i++) {
+  for (
+    let i = 1;
+    i <= Math.ceil(props.countries / props.countriesPerPage);
+    i++
+  ) {
     pageNumbers.push(i);
     // debugger
   }
