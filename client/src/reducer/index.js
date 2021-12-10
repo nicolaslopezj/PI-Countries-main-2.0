@@ -39,6 +39,18 @@ function rootReducer(state = initialState, action) {
         activities: action.payload,
       };
 
+    case 'SET_SORT':
+      const asc = action.payload.asc;
+      return {
+        ...state,
+        countries: state.countries.sort((a, b) => {
+          if (asc) {
+            return a.name.localeCompare(b.name);
+          }
+          return b.name.localeCompare(a.name);
+        }),
+      };
+
     case 'FILTER_BY_CONTINENT':
       const allCountries = state.allCountries;
       const continentFilter =

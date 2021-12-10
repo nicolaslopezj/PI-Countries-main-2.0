@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import Card from './Card';
 import Paginate from './Paginate';
 import {
   getCountries,
   addActivity,
   filterCountriesContinent,
+  setCountriesSort,
 } from '../actions';
 import SearchBar from './SearchBar';
 import './Home.css';
@@ -17,8 +18,10 @@ export default function Home() {
   // const {ui} = useContext(GlobalContext);
 
   const dispatch = useDispatch();
-  const countries = useSelector((state) => state.countries);
-  console.log(countries);
+  const countries = useSelector(
+    (state) => state.countries,
+    () => false
+  );
 
   const [currentPage, setCurrentPage] = useState(1);
   const countriesPerPage = 9;
@@ -38,7 +41,7 @@ export default function Home() {
     // ui.setLoading(true);
     dispatch(getCountries());
     // ui.setLoading(false);
-  }, [dispatch]);
+  }, []);
 
   function handleClick(e) {
     // ui.setLoading(true);
@@ -46,6 +49,11 @@ export default function Home() {
     dispatch(getCountries());
     // ui.setLoading(false);
     console.log(getCountries);
+  }
+
+  function handleSortBy(e) {
+    dispatch(setCountriesSort(e.target.value === 'asc'));
+    setCurrentPage(1);
   }
 
   function handleFilterContinent(e) {
@@ -74,12 +82,13 @@ export default function Home() {
       </div>
       <div className="select_container">
         <h2 className="sort-by">Sort by:</h2>
-        <select>
+        <select onChange={(e) => handleSortBy(e)}>
+          <option value="asc">Sort By:</option>
           <option value="asc">Ascending</option>
           <option value="desc">Descending</option>
         </select>
         <select onChange={(e) => handleFilterContinent(e)}>
-          <option value="All">By continent:</option>
+          <option value="All">Filter by continent:</option>
           <option value="South America"> South America </option>
           <option value="North America"> North America </option>
           <option value="Europe"> Europe </option>
@@ -99,7 +108,6 @@ export default function Home() {
       <div className="cards">
         {currentCountries.length
           ? currentCountries.map((country) => {
-              console.log(country);
               return (
                 <div key={country.id}>
                   <Link to={'/home/' + country.id}>
