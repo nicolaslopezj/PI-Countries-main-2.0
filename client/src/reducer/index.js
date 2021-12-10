@@ -3,6 +3,7 @@ const initialState = {
     allCountries: [],
     detail: [],
     activities: [],
+    continentFilter: []
 };
 
 function rootReducer(state = initialState, action) {
@@ -36,6 +37,16 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 activities: action.payload
             };
+
+        case "FILTER_BY_CONTINENT":
+            const allCountries = state.allCountries
+            const continentFilter = action.payload === "All" ? allCountries : allCountries.filter(country => country.continent == action.payload);
+
+            return {
+                ...state,
+                allCountries: continentFilter
+            };
+
 
         default:
             return state;

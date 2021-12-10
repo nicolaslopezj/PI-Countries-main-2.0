@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Card from './Card';
 import Paginate from './Paginate';
-import { getCountries } from '../actions';
+import { getCountries, addActivity, filterCountriesContinent } from '../actions';
 import SearchBar from './SearchBar';
 import "./Home.css";
 // import GlobalContext from '../contexts/GlobalContext';
@@ -46,6 +46,25 @@ function handleClick(e) {
     console.log(getCountries);
 }
 
+// const handleFilterContinent = e => {
+//     setPage(0)
+//     let filter = []
+//     if (e.target.value === '---') return setFilter([])
+//     if (e.target.value === 'Americas' ||
+//         e.target.value === 'Europe' ||
+//         e.target.value === 'Asia' ||
+//         e.target.value === 'Africa' ||
+//         e.target.value === 'Oceania' ||
+//         e.target.value === 'Polar') {
+//         filter = countries.filter( c => c.region === e.target.value)
+//         return setFilter(filter)
+//     }
+// }
+
+function handleFilterContinent(e) {
+    dispatch(filterCountriesContinent(e.target.value));
+}
+
 // const [loading, setLoading] = useState(true)
 
 // useEffect(() => {
@@ -70,10 +89,16 @@ function handleClick(e) {
                     <option value="asc">Ascending</option>
                     <option value="desc">Descending</option>
                 </select>
-                <select>
-                    <option value="continent">Continent</option>
-                    <option value="activity">Activity</option>
+                <select onChange={e => handleFilterContinent(e)}>
+                    <option value="All">By continent:</option>
+                    <option value="Americas"> Americas </option>
+                    <option value="Europe"> Europe </option>
+                    <option value="Africa"> Africa </option>
+                    <option value="Asia"> Asia </option>
+                    <option value="Oceania"> Oceania </option>
+                    <option value="Polar"> Polar </option>
                 </select>
+                    <option value="activity">Activity</option>
             </div>
             <div className="paginate">
                 <Paginate

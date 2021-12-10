@@ -1,41 +1,44 @@
 const {Country, Activity } = require("../db.js");
-// const {v4: uuidv4 } = require("uuid");
+const {v4: uuidv4 } = require("uuid");
 
 const addActivity = async (req, res) => {
-    const {name, dificulty, duration, season} = req.body
-    // const actId = uuidv4()
+    // try {
+    const {name, difficulty, duration, season, cId} = req.body
     const validateActivity = await Activity.findOne({
         where: {
             name: name,
         }
     })
-
-    if (!name || !dificulty || !duration || !season) {
+    
+    if (!name || !difficulty || !duration || !season || !cId) {
         res.status(404).json("Please complete all fields.")
     }
-
+    
     if (validateActivity) {
         res.status(404).json("This activity already exist.")
     } else {
-        let newActivity = await Activity.create({
-            // actId,
+        console.log(req.body)
+        const id = uuidv4()
+        const newActivity = await Activity.create({
+            id,
             name,
-            dificulty,
+            difficulty,
             duration,
             season
         })
-
-        await newActivity.setCountries(id)
+        
+        
+        await newActivity.setCountries(cId)
         
         let match = await Country.findAll({
             where: {
-                id: id
+                id: cId
             },
             include: [Activity]
         })
-
+        
         await newActivity.addCountries(match)
-        res.status(200).send("Activity created succesfully.")
+        res.status(200).send(match)
     }
 }
 

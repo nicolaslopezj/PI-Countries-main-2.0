@@ -4,32 +4,33 @@ import { getCountries, addActivity } from "../actions"
 import { Link } from "react-router-dom"
 
 export default function Form(){
+    const dispatch = useDispatch()
+    const countries = useSelector(state => state.allCountries)
     
     const [state, setState] = useState({
         name: "",
         dificulty: "",
         duration: "",
         season: "",
-        countries: []
+        cId: []
     })
 
     
-    const dispatch = useDispatch()
-    const countries = useSelector(state => state.countries)
     
-    const resetForm = () => {
-        setState({
-            name: "",
-            dificulty: "",
-            duration: "",
-            season: "",
-        })
-    }
+    // const resetForm = () => {
+    //     setState({
+    //         name: "",
+    //         difficulty: "",
+    //         duration: "",
+    //         season: "",
+    //         cId: []
+    //     })
+    // }
 
     const handleOnSubmit = async (e) => {
         e.preventDefault()
         dispatch(addActivity(state))
-        resetForm()
+        // resetForm()
     }
 
     const handleChange = (e) => {
@@ -39,11 +40,16 @@ export default function Form(){
 
     })}
 
-    const handleSelect = (e) => {
+    // const handleSelect = (e) => {
+    //     setState({
+    //         ...state,
+    //         countriesId: [...state.countries, e.target.value]
+    // })}
+
+    const handleSelect = e => { 
         setState({
-            ...state,
-            countries: [...state.countries, e.target.value]
-    })}
+            ...state, 
+            cId: state.cId.concat(e.target.value) } ) } 
 
     const handleCheck = (e) => {
         if(e.target.checked) {
@@ -57,51 +63,55 @@ export default function Form(){
     useEffect(() => {
         // console.log(countries)
         dispatch(getCountries())
-    }, [])
+    }, [dispatch])
 
 
     return (
         <div>
             <Link to="/home"><button className="btn">Back</button></Link>
-            <form className="form">
+            <form className="form" onSubmit={handleOnSubmit}>
                 <div>
-                    <label className="label">Name:</label>
+                    <label className="label">Name: </label>
                     <input type="text" className="input" name="name" value={state.name} placeholder="Name here..." onChange={handleChange} />
                 </div>
                 <div>
-                    <label className="label">Duration (minutes):</label>
-                    <input type="number" className="d-input" name="duration" value={state.duration} placeholder="Duration here..."onChange={handleChange} />
+                    <label className="label">Duration (minutes): </label>
+                    <input type="text" className="d-input" name="duration" value={state.duration} placeholder="Duration here..."onChange={handleChange} />
                 </div>
                 <div>
-                    <label className="label">Dificulty:</label>
-                    <select className="select" name="dificulty" onChange={handleSelect}>
-                        <option value={state.dificulty}>1</option>
-                        <option value={state.dificulty}>2</option>
-                        <option value={state.dificulty}>3</option>
-                        <option value={state.dificulty}>4</option>
-                        <option value={state.dificulty}>5</option>
+                    <label className="label">Difficulty: </label>
+                    <select className="select" name="difficulty" onChange={handleChange}>
+                    <option value="---">Select difficulty</option>
+                        <option value={1}>1</option>
+                        <option value={2}>2</option>
+                        <option value={3}>3</option>
+                        <option value={4}>4</option>
+                        <option value={5}>5</option>
                     </select>
                 </div>
                 <div>
-                <label className="label">Season:</label>
-                <select className="select" name="season" onChange={handleSelect}>
-                    <option>Select</option>
-                    <option value={state.season}>Summer</option>
-                    <option value={state.season}>Spring</option>
-                    <option value={state.season}>Winter</option>
-                    <option value={state.season}>Autumn</option>
+                <label className="label">Season: </label>
+                <select className="select" name="season" onChange={handleChange}>
+                    <option value="---">Select season</option>
+                    <option value={state.Summer}>Summer</option>
+                    <option value={state.Autumn}>Autumn</option>
+                    <option value={state.Winter}>Winter</option>
+                    <option value={state.Spring}>Spring</option>
                 </select>
                 </div>
                 <div>
-                    <label className="label">Countries</label>
-                    <select>
-                    {countries.map(mp => (
-                        <option value={mp.name}>{mp.name}</option>
+                    <label className="label">Countries: </label>
+                    <select className="select" name="season" onChange={handleSelect} value={state.id}>
+                        <option>Select the countries of the activity...</option>
+                        {countries?.map(mp => (
+                            <option key={mp.cca3} value={mp.id}>{mp.name}</option>
                     ))}
-                    <ul><li>{state.countries.map(el => el + ", ")}</li></ul>
+                    {/* <div><ul><li>{state.cId.map(el => el + ", ")}</li></ul></div> */}
+                    {console.log(state.cId)}
+                    <div> { state.cId && state.cId.map( mp => ( <ul className='countries-creates' key={mp}>{mp}</ul>) ) } </div>
                     </ select>
                 </div>
-                <button className="btn" onClick={handleOnSubmit}>Add activity</button>
+                <button className="btn" >Add activity</button>
             </form>
         </div>
     )

@@ -40,17 +40,27 @@ export function getDetail(id) {
   };
 }
 
-export function addActivity(activity) {
-  return async function (dispatch) {
-    var json = await axios.post("http://localhost:3001/activity", activity);
+// export function addActivity(payload) {
+//   return async function (dispatch) {
+//     var json = await axios.post("http://localhost:3001/activity", payload);
 
-    return json
-    // return dispatch({
-    //   type: "ADD_ACTIVITY",
-    //   payload: json.data,
-    // });
+//     // return json
+//     return dispatch({
+//       type: "POST_ACTIVITY",
+//       payload: json.data,
+//     });
+//   };
+// }
+
+export const addActivity = (dataAct) => {
+  return function (dispatch) {
+      return axios
+      .post(`http://localhost:3001/activity`, dataAct)
+      .then( res => {
+          dispatch({ type: "POST_ACTIVITY", payload: res.data });
+      });
   };
-}
+};
 
 export function getActivities() {
   return async function (dispatch){
@@ -63,9 +73,9 @@ export function getActivities() {
   };
 }
 
-export function getActivity(id) {
+export function getCountriesId(id) {
   return async function (dispatch) {
-      var json = await axios.get("http://localhost:3001/activity/" + id);
+      var json = await axios.get("http://localhost:3001/countries/" + id);
       
       dispatch({
         type: "GET_COUNTRIES_DETAIL",
@@ -73,6 +83,30 @@ export function getActivity(id) {
       });
   };
 }
+
+export function filterCountriesContinent(payload) {
+  // return async function (dispatch) {
+    // var json = await axios.get("http://localhost:3001/countries");
+    
+    return {
+      type: "FILTER_BY_CONTINENT",
+      payload
+    };
+  // };
+}
+
+
+
+// export function deleteActivity(id) {
+//   return async function (dispatch) {
+//       var json = await axios.delete("http://localhost:3001/activity/" + id);
+      
+//       dispatch({
+//         type: "DELETE_ACTIVITY",
+//         payload: json.data
+//       });
+//   }
+// }
 
 // export function postActivity(payload) {
 //   return async (dispatch) => {
